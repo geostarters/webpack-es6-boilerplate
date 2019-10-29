@@ -62,15 +62,24 @@ module.exports = {
             // use style-loader in development
             fallback: "style-loader"
         })
-    }]
+    },{
+      test: /\.css$/,
+      loader:[ "style-loader", "css-loader" ]
+    },{
+      test: /\.(jpe?g|png|gif|svg|ico)$/i,
+      use: [{
+        loader: 'file-loader',
+      }]
+    }
+  ]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist'], {root: process.cwd()}),
+    new CleanWebpackPlugin(["dist"], {root: process.cwd()}),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendor"
     }),
     new HtmlWebpackPlugin({
-      template: 'index.html'
+      template: "index.html"
     }),
       extractSass
   ]

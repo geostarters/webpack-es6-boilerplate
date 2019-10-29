@@ -1,3 +1,40 @@
-.hello {
-  color: red;
+:root {
+  --primary-color: #F17C2E;
+  --panel-background: #efefef;
+  --secundary-color: #D46317;
+  --header-text-color: white;
+  --white-shadow: #e3e8e7;
+  --text-color: #333;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.app {
+  height: 100vh;
+  display: flex;
+  /* Direction of the items, can be row or column */
+  flex-direction: column;
+}
+
+#root {
+  display: flex;
+  flex: 1;
+}
+
+#map {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+#footer {
+  height: 30px;
 }
