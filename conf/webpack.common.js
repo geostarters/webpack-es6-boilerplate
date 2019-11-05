@@ -1,10 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const extractSass = new ExtractTextPlugin({
+const extractSass = new MiniCssExtractPlugin({
     filename: "[name].[contenthash].css"
 });
 
@@ -30,6 +30,19 @@ module.exports = {
     modules: [path.join(process.cwd(), 'src'), 'node_modules'] // directories where to look for modules
   },
 
+  optimization: {
+    runtimeChunk: "single", // enable "runtime" chunk
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendor",
+          chunks: "all"
+        }
+      }
+    }
+  },
+
   module: {
     rules: [{
       enforce: "pre", //to check source files, not modified by other loaders (like babel-loader)
@@ -42,26 +55,28 @@ module.exports = {
       use: {
         loader: 'babel-loader',
         options: {
-          presets: ['env']
+          presets: ['@babel/preset-env']
         }
       }
     },{
         test: /\.scss$/,
-        use: extractSass.extract({
-            use: [{
-                loader: "css-loader",
-                options: {
-                    sourceMap: true
-                }
-            }, {
-                loader: "sass-loader",
-                options: {
-                    sourceMap: true
-                }
-            }],
-            // use style-loader in development
-            fallback: "style-loader"
-        })
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: "css-loader",
+            options: {
+                sourceMap: true
+            }
+          }, 
+          {
+            loader: "sass-loader",
+            options: {
+                sourceMap: true
+            }
+          }
+        ],
     },{
       test: /\.css$/,
       loader:[ "style-loader", "css-loader" ]
@@ -74,10 +89,7 @@ module.exports = {
   ]
   },
   plugins: [
-    new CleanWebpackPlugin(["dist"], {root: process.cwd()}),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "vendor"
-    }),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: "index.html"
     }),
