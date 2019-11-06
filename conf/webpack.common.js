@@ -4,10 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const extractSass = new MiniCssExtractPlugin({
-    filename: "[name].[contenthash].css"
-});
-
 module.exports = {
 
   context: path.join(process.cwd(), 'src'), //the home directory for webpack
@@ -48,7 +44,10 @@ module.exports = {
       enforce: "pre", //to check source files, not modified by other loaders (like babel-loader)
       test: /\.js$/,
       exclude: /node_modules/,
-      loader: "eslint-loader"
+      loader: "eslint-loader",
+      options: {
+        fix: true,
+      }
     }, {
       test: /\.js$/,
       exclude: /node_modules/,
@@ -85,6 +84,10 @@ module.exports = {
       use: [{
         loader: 'file-loader',
       }]
+    },
+    {
+      test: /\.(woff|woff2|ttf|eot)$/,
+      use: 'file-loader?name=fonts/[name].[ext]!static'
     }
   ]
   },
@@ -93,6 +96,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "index.html"
     }),
-      extractSass
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css"
+    }),
+    new webpack.ProvidePlugin({
+      "$": "jquery",
+      "jQuery": "jquery"
+    })
   ]
 };

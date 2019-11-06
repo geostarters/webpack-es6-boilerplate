@@ -54,6 +54,11 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "mapbox-gl": "^1.5.0"
+    "bootstrap": "^4.3.1",
+    "fomantic-ui": "^2.7.8",
+    "fomantic-ui-css": "^2.7.8",
+    "jquery": "^3.4.1",
+    "mapbox-gl": "^1.5.0",
+    "popper.js": "^1.16.0"
   }
 }

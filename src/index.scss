@@ -5,6 +5,8 @@
   --header-text-color: white;
   --white-shadow: #e3e8e7;
   --text-color: #333;
+  --header-height: 65px;
+  --footer-height: 30px;
 }
 
 body {
@@ -36,5 +38,5 @@ body {
 }
 
 #footer {
-  height: 30px;
+  height: var(--footer-height);
 }

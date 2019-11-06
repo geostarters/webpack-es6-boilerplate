@@ -1,6 +1,6 @@
 #header {
     background-color: var(--primary-color);
-    height: 65px;
+    height: var(--header-height);
     opacity: 0.9;
 }
 
